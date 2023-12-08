@@ -101,10 +101,23 @@ var quotes = [
 var savedPosters = [];
 var currentPoster;
 var mainPageImage = document.querySelector('.poster-img')
+var mainPageTitle = document.querySelector('.poster-title')
+var mainPageQuote = document.querySelector('.poster-quote')
+var button = document.querySelector('.show-random')
+
 var randomImageIndex = getRandomIndex(images)
 var actualRandomImage = images[randomImageIndex]
-console.log(actualRandomImage)
+mainPageImage.src = actualRandomImage
+  
+var randomTitleIndex = getRandomIndex(titles)
+var randomTitle = titles[randomTitleIndex]
+mainPageTitle.innerText = randomTitle
+
+var randomQuoteIndex = getRandomIndex(quotes)
+var randomQuote = quotes[randomQuoteIndex]
+mainPageQuote.innerText = randomQuote
 // event listeners go here 👇
+button.addEventListener('click', showRandomPoster)
 
 // functions and event handlers go here 👇
 // (we've provided two to get you started)!
@@ -120,8 +133,20 @@ function createPoster(imageURL, title, quote) {
     title: title, 
     quote: quote}
 }
-mainPageImage.src = actualRandomImage
-console.log(typeof actualRandomImage)
+
+function showRandomPoster() {
+  var randomImageIndex = getRandomIndex(images)
+  var actualRandomImage = images[randomImageIndex]
+  mainPageImage.src = actualRandomImage
+    
+  var randomTitleIndex = getRandomIndex(titles)
+  var randomTitle = titles[randomTitleIndex]
+  mainPageTitle.innerText = randomTitle
+  
+  var randomQuoteIndex = getRandomIndex(quotes)
+  var randomQuote = quotes[randomQuoteIndex]
+  mainPageQuote.innerText = randomQuote
+}
 
 /*Goal: generate a random image onto the main page
 Take in the images array as a parameter for the function, iterate through that array,
