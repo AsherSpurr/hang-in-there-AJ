@@ -103,7 +103,10 @@ var currentPoster;
 var mainPageImage = document.querySelector('.poster-img')
 var mainPageTitle = document.querySelector('.poster-title')
 var mainPageQuote = document.querySelector('.poster-quote')
-var button = document.querySelector('.show-random')
+var buttonRandom = document.querySelector('.show-random')
+var buttonCreate = document.querySelector('.show-form')
+var posterForm = document.querySelector('.poster-form')
+
 
 var randomImageIndex = getRandomIndex(images)
 var actualRandomImage = images[randomImageIndex]
@@ -117,8 +120,8 @@ var randomQuoteIndex = getRandomIndex(quotes)
 var randomQuote = quotes[randomQuoteIndex]
 mainPageQuote.innerText = randomQuote
 // event listeners go here 👇
-button.addEventListener('click', showRandomPoster)
-
+buttonRandom.addEventListener('click', showRandomPoster)
+buttonCreate.addEventListener('click', openMakePosterPage)
 // functions and event handlers go here 👇
 // (we've provided two to get you started)!
 
@@ -148,9 +151,15 @@ function showRandomPoster() {
   mainPageQuote.innerText = randomQuote
 }
 
-/*Goal: generate a random image onto the main page
-Take in the images array as a parameter for the function, iterate through that array,
-return a random image.
-Access the class poster image in the HTML document
-Questions - How do we specify that we're changing the poster image from the JS?
-- How do we randomize the selection?*/
+function openMakePosterPage() {
+  poster-form.classList.remove('hidden')
+}
+
+/*
+Goal:
+ - Unhide poster-form hidden when the button is clicked
+
+ Code:
+  - reassign, replace, remove, the poster-form hidden class
+  - We want to reassign / replace with poster-form class
+  - Want to create a event listener for a button click and the function aboce as parameter*/
