@@ -106,8 +106,11 @@ var mainPageQuote = document.querySelector('.poster-quote')
 var buttonRandom = document.querySelector('.show-random')
 var buttonCreate = document.querySelector('.show-form')
 var posterForm = document.querySelector('.poster-form')
-
-
+var mainPage = document.querySelector('.main-poster')
+var buttonShowMain = document.querySelector('.show-main')
+var buttonShowSaved = document.querySelector('.show-saved')
+var savedPosters = document.querySelector('.saved-posters')
+var buttonBackMain = document.querySelector('.back-to-main')
 var randomImageIndex = getRandomIndex(images)
 var actualRandomImage = images[randomImageIndex]
 mainPageImage.src = actualRandomImage
@@ -119,9 +122,15 @@ mainPageTitle.innerText = randomTitle
 var randomQuoteIndex = getRandomIndex(quotes)
 var randomQuote = quotes[randomQuoteIndex]
 mainPageQuote.innerText = randomQuote
+
 // event listeners go here 👇
 buttonRandom.addEventListener('click', showRandomPoster)
 buttonCreate.addEventListener('click', openMakePosterPage)
+
+buttonShowMain.addEventListener('click', closeMakePosterPage)
+
+buttonShowSaved.addEventListener('click', openSavedPosters)
+buttonBackMain.addEventListener('click', closeSavedPosters)
 // functions and event handlers go here 👇
 // (we've provided two to get you started)!
 
@@ -152,8 +161,25 @@ function showRandomPoster() {
 }
 
 function openMakePosterPage() {
-  poster-form.classList.remove('hidden')
+  posterForm.classList.remove('hidden')
+  mainPage.classList.add('hidden')
 }
+
+function closeMakePosterPage() {
+  posterForm.classList.add('hidden')
+  mainPage.classList.remove('hidden')
+}
+
+function openSavedPosters() {
+  savedPosters.classList.remove('hidden')
+  mainPage.classList.add('hidden')
+}
+
+function closeSavedPosters() {
+  savedPosters.classList.add('hidden')
+  mainPage.classList.remove('hidden')
+}
+
 
 /*
 Goal:
@@ -162,4 +188,10 @@ Goal:
  Code:
   - reassign, replace, remove, the poster-form hidden class
   - We want to reassign / replace with poster-form class
-  - Want to create a event listener for a button click and the function aboce as parameter*/
+  - Want to create a event listener for a button click and the function aboce as parameter
+  
+Questions:
+ - how do we remove just the hidden class
+ - Poster from 'poster-form' line 155 is unideftified -- wtf
+  
+  */
