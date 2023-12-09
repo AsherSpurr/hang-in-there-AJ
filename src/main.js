@@ -136,7 +136,7 @@ buttonShowForm.addEventListener('click', openMakePosterPage)
 buttonShowMain.addEventListener('click', closeMakePosterPage)
 buttonShowSaved.addEventListener('click', openSavedPosters)
 buttonBackMain.addEventListener('click', closeSavedPosters)
-buttonMakePoster.addEventListener('click', () => {assignPosterValue(event)})
+buttonMakePoster.addEventListener('click', assignPosterValue)
 
 // functions and event handlers go here 👇
 // (we've provided two to get you started)!
