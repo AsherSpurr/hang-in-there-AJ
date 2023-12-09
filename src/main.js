@@ -120,15 +120,15 @@ var buttonMakePoster = document.querySelector('.make-poster')
 
 var randomImageIndex = getRandomIndex(images)
 var actualRandomImage = images[randomImageIndex]
-posterImg.src = actualRandomImage
+  posterImg.src = actualRandomImage
   
 var randomTitleIndex = getRandomIndex(titles)
 var randomTitle = titles[randomTitleIndex]
-posterTitle.innerText = randomTitle
+  posterTitle.innerText = randomTitle
 
 var randomQuoteIndex = getRandomIndex(quotes)
 var randomQuote = quotes[randomQuoteIndex]
-posterQuote.innerText = randomQuote
+  posterQuote.innerText = randomQuote
 
 // event listeners go here 👇
 buttonShowRandom.addEventListener('click', showRandomPoster)
@@ -161,20 +161,23 @@ function assignPosterValue() {
   posterTitle.innerText = currentPoster.title
   posterQuote.innerText = currentPoster.quote
   event.preventDefault()
+    images.push(currentPoster.imageURL)
+    titles.push(currentPoster.title)
+    quotes.push(currentPoster.quote)
  }
 
 function showRandomPoster() {
   var randomImageIndex = getRandomIndex(images)
   var actualRandomImage = images[randomImageIndex]
-  posterImg.src = actualRandomImage
+    posterImg.src = actualRandomImage
     
   var randomTitleIndex = getRandomIndex(titles)
   var randomTitle = titles[randomTitleIndex]
-  posterTitle.innerText = randomTitle
+    posterTitle.innerText = randomTitle
   
   var randomQuoteIndex = getRandomIndex(quotes)
   var randomQuote = quotes[randomQuoteIndex]
-  posterQuote.innerText = randomQuote
+    posterQuote.innerText = randomQuote
 }
 
 function openMakePosterPage() {
@@ -196,19 +199,3 @@ function closeSavedPosters() {
   savedPosters.classList.add('hidden')
   mainPoster.classList.remove('hidden')
 }
-
-
-/*
-Goal:
- - Unhide poster-form hidden when the button is clicked
-
- Code:
-  - reassign, replace, remove, the poster-form hidden class
-  - We want to reassign / replace with poster-form class
-  - Want to create a event listener for a button click and the function aboce as parameter
-  
-Questions:
- - how do we remove just the hidden class
- - Poster from 'poster-form' line 155 is unideftified -- wtf
-  
-  */
