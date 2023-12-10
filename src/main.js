@@ -109,36 +109,39 @@ var posterForm = document.querySelector('.poster-form')
 var mainPoster = document.querySelector('.main-poster')
 var buttonShowMain = document.querySelector('.show-main')
 var buttonShowSaved = document.querySelector('.show-saved')
-var ownSavedPosters = document.querySelector('.saved-posters') //CHANGED TO ownSavedPosters
+var ownSavedPosters = document.querySelector('.saved-posters') 
 var buttonBackMain = document.querySelector('.back-to-main')
 var posterImageUrl = document.querySelector('#poster-image-url')
 var posterTitleInput = document.querySelector('#poster-title')
 var posterQuoteInput = document.querySelector('#poster-quote')
 var buttonMakePoster = document.querySelector('.make-poster')
-// var poster = document.querySelector('.poster')
+var buttonSaveThisPoster = document.querySelector('.save-poster') 
+var savedPostersGrid = document.querySelector('.saved-posters-grid')
+var miniPoster = document.querySelector('.mini-poster')
+var miniPosterImg = document.querySelector('.mini-poster img')
+var miniPosterH2 = document.querySelector('.mini-poster h2')
+
 var randomImageIndex = getRandomIndex(images)
 var actualRandomImage = images[randomImageIndex]
-posterImg.src = actualRandomImage
+  posterImg.src = actualRandomImage
 var randomTitleIndex = getRandomIndex(titles)
 var randomTitle = titles[randomTitleIndex]
-posterTitle.innerText = randomTitle
+  posterTitle.innerText = randomTitle
 var randomQuoteIndex = getRandomIndex(quotes)
 var randomQuote = quotes[randomQuoteIndex]
-posterQuote.innerText = randomQuote
-var buttonSaveThisPoster = document.querySelector('.save-poster') //NEW ADDITION
+  posterQuote.innerText = randomQuote
 
 // event listeners go here 👇
-buttonSaveThisPoster.addEventListener('click', saveThisPoster) //NEW ADDITION
+buttonSaveThisPoster.addEventListener('click', saveThisPoster) 
 buttonShowRandom.addEventListener('click', showRandomPoster)
 buttonShowForm.addEventListener('click', openMakePosterPage)
 buttonShowMain.addEventListener('click', closeMakePosterPage)
-
-buttonShowSaved.addEventListener('click', openSavedPosters)
+buttonShowSaved.addEventListener('click', displayPoster)
 buttonBackMain.addEventListener('click', closeSavedPosters)
-buttonMakePoster.addEventListener('click', () => {assignPosterValue(event)})
+buttonMakePoster.addEventListener('click', assignPosterValue)
+
 // functions and event handlers go here 👇
 // (we've provided two to get you started)!
-
 function getRandomIndex(array) {
   return Math.floor(Math.random() * array.length);
 }
@@ -151,28 +154,29 @@ function createPoster(imageURL, title, quote) {
     quote: quote }
   return currentPoster
 }
+
 function assignPosterValue() {
   createPoster(posterImageUrl.value, posterTitleInput.value, posterQuoteInput.value)
   closeMakePosterPage()
-  posterImg.src = currentPoster.imageURL
-  posterTitle.innerText = currentPoster.title
-  posterQuote.innerText = currentPoster.quote
+    posterImg.src = currentPoster.imageURL
+    posterTitle.innerText = currentPoster.title
+    posterQuote.innerText = currentPoster.quote
   event.preventDefault()
-  images.push(currentPoster.imageUrl)
-  titles.push(currentPoster.title)
-  quotes.push(currentPoster.quote)
-  console.log(images.slice(-1))
+    images.push(currentPoster.imageUrl)
+    titles.push(currentPoster.title)
+    quotes.push(currentPoster.quote)
  }
+
 function showRandomPoster() {
   var randomImageIndex = getRandomIndex(images)
   var actualRandomImage = images[randomImageIndex]
-  posterImg.src = actualRandomImage
+    posterImg.src = actualRandomImage
   var randomTitleIndex = getRandomIndex(titles)
   var randomTitle = titles[randomTitleIndex]
-  posterTitle.innerText = randomTitle
+    posterTitle.innerText = randomTitle
   var randomQuoteIndex = getRandomIndex(quotes)
   var randomQuote = quotes[randomQuoteIndex]
-  posterQuote.innerText = randomQuote
+    posterQuote.innerText = randomQuote
 }
 
 function openMakePosterPage() {
@@ -186,41 +190,43 @@ function closeMakePosterPage() {
 }
 
 function openSavedPosters() {
-  ownSavedPosters.classList.remove('hidden') //CHANGED from savedPosters to ownSavedPosters
+  ownSavedPosters.classList.remove('hidden') 
   mainPoster.classList.add('hidden')
 }
 
 function closeSavedPosters() {
-  ownSavedPosters.classList.add('hidden') //CHANGED from savedPosters to ownSavedPosters
+  ownSavedPosters.classList.add('hidden') 
   mainPoster.classList.remove('hidden')
 }
 
 function saveThisPoster() {
-  if (currentPoster) {
-    if (!savedPosters.some(poster => poster.id === currentPoster.id)) {
+    if (!savedPosters.includes(currentPoster)) {
       savedPosters.push(currentPoster);
-      console.log('Poster saved!', savedPosters);
-    } else {
-      console.log('Poster already saved!');
     }
-  } else {
-    console.error('No poster yet!');
+}
+
+function displayPoster() {
+  openSavedPosters()
+      savedPostersGrid.innerHTML = ""
+    for (var i = 0; i < savedPosters.length; i++) {
+      savedPostersGrid.insertAdjacentHTML('afterbegin', 
+        `<div class="mini-poster" id="${savedPosters[i].id}">
+          <img src="${savedPosters[i].imageURL}" alt="motivational poster">
+          <h2>${savedPosters[i].title}</h2>
+          <h4>${savedPosters[i].quote}</h4>
+         </div>`)
+  } 
+  savedPostersGrid.addEventListener('dblclick', function(event){
+    loc = event.target.closest('div')
+    deletePoster(loc.id)
+  })
+}
+
+function deletePoster(loc) {
+  for (var i = 0; i < savedPosters.length; i++) {
+    if (loc == savedPosters[i].id) {
+      savedPosters.splice([i], 1)
+    }
   }
-} //NEW JARVIS
-
-
-
-/*
-Goal:
- - Unhide poster-form hidden when the button is clicked
-
- Code:
-  - reassign, replace, remove, the poster-form hidden class
-  - We want to reassign / replace with poster-form class
-  - Want to create a event listener for a button click and the function aboce as parameter
-  
-Questions:
- - how do we remove just the hidden class
- - Poster from 'poster-form' line 155 is unideftified -- wtf
-  
-  */
+  displayPoster()
+}
