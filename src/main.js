@@ -109,26 +109,33 @@ var posterForm = document.querySelector('.poster-form')
 var mainPoster = document.querySelector('.main-poster')
 var buttonShowMain = document.querySelector('.show-main')
 var buttonShowSaved = document.querySelector('.show-saved')
-var ownSavedPosters = document.querySelector('.saved-posters') //CHANGED TO ownSavedPosters
+var ownSavedPosters = document.querySelector('.saved-posters') 
 var buttonBackMain = document.querySelector('.back-to-main')
 var posterImageUrl = document.querySelector('#poster-image-url')
 var posterTitleInput = document.querySelector('#poster-title')
 var posterQuoteInput = document.querySelector('#poster-quote')
 var buttonMakePoster = document.querySelector('.make-poster')
+var buttonSaveThisPoster = document.querySelector('.save-poster') 
+var savedPostersGrid = document.querySelector('.saved-posters-grid')
+var miniPoster = document.querySelector('.mini-poster')
+var miniPosterImg = document.querySelector('.mini-poster img')
+var miniPosterH2 = document.querySelector('.mini-poster h2')
+//var miniPosterH4 = document.querySelector('.mini-poster h4')
+
 // var poster = document.querySelector('.poster')
 var randomImageIndex = getRandomIndex(images)
 var actualRandomImage = images[randomImageIndex]
-posterImg.src = actualRandomImage
+  posterImg.src = actualRandomImage
 var randomTitleIndex = getRandomIndex(titles)
 var randomTitle = titles[randomTitleIndex]
-posterTitle.innerText = randomTitle
+  posterTitle.innerText = randomTitle
 var randomQuoteIndex = getRandomIndex(quotes)
 var randomQuote = quotes[randomQuoteIndex]
-posterQuote.innerText = randomQuote
-var buttonSaveThisPoster = document.querySelector('.save-poster') //NEW ADDITION
+  posterQuote.innerText = randomQuote
+
 
 // event listeners go here 👇
-buttonSaveThisPoster.addEventListener('click', saveThisPoster) //NEW ADDITION
+buttonSaveThisPoster.addEventListener('click', saveThisPoster) 
 buttonShowRandom.addEventListener('click', showRandomPoster)
 buttonShowForm.addEventListener('click', openMakePosterPage)
 buttonShowMain.addEventListener('click', closeMakePosterPage)
@@ -153,25 +160,25 @@ function createPoster(imageURL, title, quote) {
 function assignPosterValue() {
   createPoster(posterImageUrl.value, posterTitleInput.value, posterQuoteInput.value)
   closeMakePosterPage()
-  posterImg.src = currentPoster.imageURL
-  posterTitle.innerText = currentPoster.title
-  posterQuote.innerText = currentPoster.quote
+    posterImg.src = currentPoster.imageURL
+    posterTitle.innerText = currentPoster.title
+    posterQuote.innerText = currentPoster.quote
   event.preventDefault()
-  images.push(currentPoster.imageUrl)
-  titles.push(currentPoster.title)
-  quotes.push(currentPoster.quote)
-  console.log(images.slice(-1))
+    images.push(currentPoster.imageUrl)
+    titles.push(currentPoster.title)
+    quotes.push(currentPoster.quote)
+    console.log(images.slice(-1))
  }
 function showRandomPoster() {
   var randomImageIndex = getRandomIndex(images)
   var actualRandomImage = images[randomImageIndex]
-  posterImg.src = actualRandomImage
+    posterImg.src = actualRandomImage
   var randomTitleIndex = getRandomIndex(titles)
   var randomTitle = titles[randomTitleIndex]
-  posterTitle.innerText = randomTitle
+    posterTitle.innerText = randomTitle
   var randomQuoteIndex = getRandomIndex(quotes)
   var randomQuote = quotes[randomQuoteIndex]
-  posterQuote.innerText = randomQuote
+    posterQuote.innerText = randomQuote
 }
 
 function openMakePosterPage() {
@@ -185,28 +192,25 @@ function closeMakePosterPage() {
 }
 
 function openSavedPosters() {
-  ownSavedPosters.classList.remove('hidden') //CHANGED from savedPosters to ownSavedPosters
+  ownSavedPosters.classList.remove('hidden') 
   mainPoster.classList.add('hidden')
 }
 
 function closeSavedPosters() {
-  ownSavedPosters.classList.add('hidden') //CHANGED from savedPosters to ownSavedPosters
+  ownSavedPosters.classList.add('hidden') 
   mainPoster.classList.remove('hidden')
 }
 
 function saveThisPoster() {
-  if (currentPoster) {
-    if (!savedPosters.some(poster => poster.id === currentPoster.id)) {
+    if (!savedPosters.includes(currentPoster)) {
       savedPosters.push(currentPoster);
-      console.log('Poster saved!', savedPosters);
-    } else {
-      console.log('Poster already saved!');
-    }
-  } else {
-    console.error('No poster yet!');
-  }
-} //NEW JARVIS
-
-
+      savedPostersGrid.insertAdjacentHTML('afterbegin', 
+        `<div class="mini-poster" id="${currentPoster.id}">
+          <img src="${currentPoster.imageURL}" alt="motivational poster">
+          <h2>${currentPoster.title}</h2>
+          <h4>${currentPoster.quote}</h4>
+         </div>`)
+  } 
+}
 
 
