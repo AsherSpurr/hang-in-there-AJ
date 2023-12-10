@@ -100,37 +100,42 @@ var quotes = [
 ];
 var savedPosters = [];
 var currentPoster;
-var mainPageImage = document.querySelector('.poster-img')
-var mainPageTitle = document.querySelector('.poster-title')
-var mainPageQuote = document.querySelector('.poster-quote')
-var buttonRandom = document.querySelector('.show-random')
-var buttonCreate = document.querySelector('.show-form')
+var posterImg = document.querySelector('.poster-img')
+var posterTitle = document.querySelector('.poster-title')
+var posterQuote = document.querySelector('.poster-quote')
+var buttonShowRandom = document.querySelector('.show-random')
+var buttonShowForm = document.querySelector('.show-form')
 var posterForm = document.querySelector('.poster-form')
-var mainPage = document.querySelector('.main-poster')
+var mainPoster = document.querySelector('.main-poster')
 var buttonShowMain = document.querySelector('.show-main')
 var buttonShowSaved = document.querySelector('.show-saved')
-var savedPosters = document.querySelector('.saved-posters')
+var ownSavedPosters = document.querySelector('.saved-posters') //CHANGED TO ownSavedPosters
 var buttonBackMain = document.querySelector('.back-to-main')
+var posterImageUrl = document.querySelector('#poster-image-url')
+var posterTitleInput = document.querySelector('#poster-title')
+var posterQuoteInput = document.querySelector('#poster-quote')
+var buttonMakePoster = document.querySelector('.make-poster')
+// var poster = document.querySelector('.poster')
 var randomImageIndex = getRandomIndex(images)
 var actualRandomImage = images[randomImageIndex]
-mainPageImage.src = actualRandomImage
-  
+posterImg.src = actualRandomImage
 var randomTitleIndex = getRandomIndex(titles)
 var randomTitle = titles[randomTitleIndex]
-mainPageTitle.innerText = randomTitle
-
+posterTitle.innerText = randomTitle
 var randomQuoteIndex = getRandomIndex(quotes)
 var randomQuote = quotes[randomQuoteIndex]
-mainPageQuote.innerText = randomQuote
+posterQuote.innerText = randomQuote
+var buttonSaveThisPoster = document.querySelector('.save-poster') //NEW ADDITION
 
 // event listeners go here 👇
-buttonRandom.addEventListener('click', showRandomPoster)
-buttonCreate.addEventListener('click', openMakePosterPage)
-
+buttonSaveThisPoster.addEventListener('click', saveThisPoster) //NEW ADDITION
+buttonShowRandom.addEventListener('click', showRandomPoster)
+buttonShowForm.addEventListener('click', openMakePosterPage)
 buttonShowMain.addEventListener('click', closeMakePosterPage)
 
 buttonShowSaved.addEventListener('click', openSavedPosters)
 buttonBackMain.addEventListener('click', closeSavedPosters)
+buttonMakePoster.addEventListener('click', () => {assignPosterValue(event)})
 // functions and event handlers go here 👇
 // (we've provided two to get you started)!
 
@@ -139,46 +144,70 @@ function getRandomIndex(array) {
 }
 
 function createPoster(imageURL, title, quote) {
-  return {
-    id: Date.now(), 
-    imageURL: imageURL, 
-    title: title, 
-    quote: quote}
+  currentPoster = {
+    id: Date.now(),
+    imageURL: imageURL,
+    title: title,
+    quote: quote }
+  return currentPoster
 }
-
+function assignPosterValue() {
+  createPoster(posterImageUrl.value, posterTitleInput.value, posterQuoteInput.value)
+  closeMakePosterPage()
+  posterImg.src = currentPoster.imageURL
+  posterTitle.innerText = currentPoster.title
+  posterQuote.innerText = currentPoster.quote
+  event.preventDefault()
+  images.push(currentPoster.imageUrl)
+  titles.push(currentPoster.title)
+  quotes.push(currentPoster.quote)
+  console.log(images.slice(-1))
+ }
 function showRandomPoster() {
   var randomImageIndex = getRandomIndex(images)
   var actualRandomImage = images[randomImageIndex]
-  mainPageImage.src = actualRandomImage
-    
+  posterImg.src = actualRandomImage
   var randomTitleIndex = getRandomIndex(titles)
   var randomTitle = titles[randomTitleIndex]
-  mainPageTitle.innerText = randomTitle
-  
+  posterTitle.innerText = randomTitle
   var randomQuoteIndex = getRandomIndex(quotes)
   var randomQuote = quotes[randomQuoteIndex]
-  mainPageQuote.innerText = randomQuote
+  posterQuote.innerText = randomQuote
 }
 
 function openMakePosterPage() {
   posterForm.classList.remove('hidden')
-  mainPage.classList.add('hidden')
+  mainPoster.classList.add('hidden')
 }
 
 function closeMakePosterPage() {
   posterForm.classList.add('hidden')
-  mainPage.classList.remove('hidden')
+  mainPoster.classList.remove('hidden')
 }
 
 function openSavedPosters() {
-  savedPosters.classList.remove('hidden')
-  mainPage.classList.add('hidden')
+  ownSavedPosters.classList.remove('hidden') //CHANGED from savedPosters to ownSavedPosters
+  mainPoster.classList.add('hidden')
 }
 
 function closeSavedPosters() {
-  savedPosters.classList.add('hidden')
-  mainPage.classList.remove('hidden')
+  ownSavedPosters.classList.add('hidden') //CHANGED from savedPosters to ownSavedPosters
+  mainPoster.classList.remove('hidden')
 }
+
+function saveThisPoster() {
+  if (currentPoster) {
+    if (!savedPosters.some(poster => poster.id === currentPoster.id)) {
+      savedPosters.push(currentPoster);
+      console.log('Poster saved!', savedPosters);
+    } else {
+      console.log('Poster already saved!');
+    }
+  } else {
+    console.error('No poster yet!');
+  }
+} //NEW JARVIS
+
 
 
 /*
